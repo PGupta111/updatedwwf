@@ -426,6 +426,7 @@ interface CardProps {
   noHoverEffect?: boolean;
   hasDotPattern?: boolean;
   onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
+  style?: React.CSSProperties;
 }
 interface ButtonProps {
   children?: ReactNode;
@@ -572,6 +573,7 @@ const Card: FC<CardProps> = memo(
     noHoverEffect = false,
     hasDotPattern = false,
     onClick,
+    style,
   }) => (
     <div
       className={`relative bg-white shadow-lg rounded-xl mb-6 sm:mb-8 border border-gray-200 ${
@@ -582,7 +584,7 @@ const Card: FC<CardProps> = memo(
           : "transition-all duration-300 hover:shadow-2xl hover:border-sky-400 hover:scale-[1.01] will-change-transform"
       } ${onClick ? "cursor-pointer" : ""} ${className}`}
       onClick={onClick}
-      style={{ transform: "translateZ(0)" }}
+      style={{ transform: "translateZ(0)", ...style }}
     >
       {hasDotPattern && <DotPattern dotColor="text-sky-500 opacity-5" />}
       <div className="relative z-10 h-full flex flex-col">{children}</div>
@@ -802,7 +804,7 @@ const projectsData: Project[] = [
     getInvolved:
       "Share your ideas for station improvements, express interest in volunteering for future cleanup or beautification efforts, connect us with relevant community organizations, or let us know what would make your commuting experience better.",
     image:
-      "https://www.westwindsorhistory.com/uploads/1/2/3/1/123111196/2018-12-08-pj-train-station-ticket-building_orig.jpg",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmeoCGPvTfOecoJv0bjF_U8doP2ZIKdL8Tdg&s",
     partnerOrganizations: [],
     fundingSources: [],
     initiatives: [
@@ -838,12 +840,13 @@ const projectsData: Project[] = [
   {
     id: 3,
     slug: "budget-visualizer-2026",
-    title: "2026 Municipal Budget Visualizer",
+    title: "2026 Township Budget Visualizer",
     shortGoal: "Making the township budget easy to understand.",
     status: "Live",
     description:
       "A resident-friendly, non-partisan guide to West Windsor Township's adopted 2026 municipal budget. Explore where the money comes from and where it goes through interactive charts, a flow diagram, and a 3D view, estimate your own share with the tax calculator, see what changed from 2025, and ask the built-in assistant questions about the figures.",
-    image: "/budget/assets/hero-illustration.png",
+    image:
+      "https://cdn.corner.inc/place-photo/AVzFdbkamIpsqY9JYhaZQ8jMXm9y3z20OnBhhi7JicHOL4v8kZJPl5qafoD061DpXdFA80m0LrRQfKP5OOCGFZ-kUUnscv71RzO04SRk7B0Em1jFELYsrVrK_9ipJiUxj36C3J9x0H7kMbH3zxkCgHRj5GgEeJCAQDHzisLhSUMSgspFEVr2.jpeg",
     externalUrl: "/budget/",
   },
 ];
@@ -1138,7 +1141,7 @@ const Navbar: FC<NavbarProps> = ({
     "Home",
     "About",
     "Projects",
-    "Budget",
+    "Township Budget",
     "Contact",
   ] as const;
   type NavItem = (typeof navItems)[number];
@@ -1146,8 +1149,8 @@ const Navbar: FC<NavbarProps> = ({
   const mobileMenuRef = useRef<HTMLDivElement>(null);
 
   const handleNav = (item: NavItem) => {
-    // The Budget Visualizer is hosted as static pages on this same site.
-    if (item === "Budget") {
+    // The Township Budget Visualizer is hosted as static pages on this same site.
+    if (item === "Township Budget") {
       window.location.href = "/budget/";
       return;
     }
@@ -2344,7 +2347,7 @@ const ProjectCard: FC<ProjectCardProps> = memo(({ project, setActivePage }) => {
         >
           {" "}
           {project.externalUrl
-            ? "Explore the Budget"
+            ? "Explore the Township Budget"
             : project.redirectTo
             ? "View Details"
             : "View Project Details"}{" "}
@@ -4556,6 +4559,10 @@ const ContactPage: FC = () => {
             <Card
               className="bg-gradient-to-br from-sky-600 to-indigo-700 text-white p-0 transform hover:scale-105 transition-all duration-300"
               noHoverEffect
+              style={{
+                backgroundImage:
+                  "linear-gradient(to bottom right, #0284c7, #4338ca)",
+              }}
             >
               <div className="relative p-4 sm:p-6 lg:p-8">
                 <DotPattern
