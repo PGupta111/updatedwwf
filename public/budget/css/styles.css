@@ -132,6 +132,47 @@ a { color: var(--brand-700); }
   display: block;
 }
 
+.back-home .back-home-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 11px;
+  background: var(--brand-100);
+  color: var(--brand-700);
+  border: 1px solid var(--brand-300);
+  flex: none;
+  transition: background 0.18s ease, color 0.18s ease, transform 0.18s ease;
+}
+
+.back-home .back-home-icon svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.back-home:hover .back-home-icon {
+  background: var(--brand-700);
+  color: #fff;
+  transform: translateX(-2px);
+}
+
+[data-theme="dark"] .back-home .back-home-icon {
+  background: rgba(125, 211, 252, 0.12);
+  color: var(--brand-300);
+  border-color: rgba(125, 211, 252, 0.25);
+}
+
+[data-theme="dark"] .back-home:hover .back-home-icon {
+  background: var(--brand-500);
+  color: #0b1220;
+}
+
 .brand-text {
   display: flex;
   flex-direction: column;
