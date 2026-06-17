@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<base href="/budget/" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>2026 Budget Visualizer | West Windsor Forward</title>
+<meta name="description" content="A resident-friendly guide to West Windsor Township's 2026 adopted municipal budget." />
+<link rel="icon" href="assets/favicon.ico" />
+<meta name="theme-color" content="#082f49" />
+<meta name="color-scheme" content="light dark" />
+<link rel="stylesheet" href="css/fonts.css" />
+<link rel="stylesheet" href="css/styles.css" />
+<script type="importmap">
+{
+  "imports": {
+    "three": "./js/vendor/three/three.module.min.js",
+    "three/addons/": "./js/vendor/three/addons/"
+  }
+}
+</script>
+<script>
+  // Apply the saved (or system) theme before first paint to avoid a flash.
+  (function () {
+    try {
+      var saved = localStorage.getItem("wwf-theme");
+      document.documentElement.setAttribute("data-theme", saved || "light");
+    } catch (e) {}
+  })();
+</script>
+</head>
+<body>
+
+<div class="top-bar"></div>
+<header class="site-header">
+  <div class="container">
+    <a class="brand" href="#top">
+      <img src="assets/wwf-logo.png" alt="West Windsor Forward logo" />
+      <span class="brand-text">
+        <strong>West Windsor Forward</strong>
+        <span>2026 Municipal Budget &middot; Visualizer</span>
+      </span>
+    </a>
+    <nav class="site-nav" id="site-nav">
+      <a href="#glance">Overview</a>
+      <a href="#explore">Explore</a>
+      <a href="#calculator">Your Share</a>
+      <a href="#about">FAQ</a>
+    </nav>
+    <div class="header-actions">
+      <button type="button" class="nav-ask" data-open-chat aria-label="Ask the budget assistant">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 11.5a8.5 8.5 0 0 1-12.4 7.55L3 21l1.95-5.6A8.5 8.5 0 1 1 21 11.5z"/></svg>
+        <span>Ask the budget</span>
+      </button>
+      <a href="data.html" class="nav-cta">Data</a>
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
+        <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"></circle><g><line x1="12" y1="2.5" x2="12" y2="5"></line><line x1="12" y1="19" x2="12" y2="21.5"></line><line x1="2.5" y1="12" x2="5" y2="12"></line><line x1="19" y1="12" x2="21.5" y2="12"></line><line x1="5.1" y1="5.1" x2="6.9" y2="6.9"></line><line x1="17.1" y1="17.1" x2="18.9" y2="18.9"></line><line x1="5.1" y1="18.9" x2="6.9" y2="17.1"></line><line x1="17.1" y1="6.9" x2="18.9" y2="5.1"></line></g></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"></path></svg>
+      </button>
+      <button type="button" class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+</header>
+
+<section class="hero" id="top">
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <h1>West Windsor's 2026 municipal budget, <em class="serif-accent">explained</em>.</h1>
+      <p>
+        A resident-friendly guide to where the township's money comes from,
+        where it goes, and what it means for your household &mdash; based on
+        the municipal budget only, not your school or county taxes.
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#calculator">Estimate your share</a>
+        <a class="btn btn-secondary" href="data.html">Explore the data</a>
+      </div>
+    </div>
+    <div class="hero-art">
+      <div class="hero-panel">
+        <div class="hero-panel-decor" aria-hidden="true">
+          <span class="hero-ring hero-ring-1"></span>
+          <span class="hero-ring hero-ring-2"></span>
+          <span class="hero-ring hero-ring-3"></span>
+        </div>
+        <div class="hero-figure">
+          <div class="hero-figure-label">Total 2026 municipal budget</div>
+          <div class="hero-figure-value">$57.69M</div>
+          <div class="hero-figure-source">Source: Budget Summary, Sheet 3</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="hero-sources">
+      <a class="hero-source-btn" href="https://www.westwindsortwp.gov/Documents/Departments%20And%20Divisions/Finance/Financial%20Documents/2026/2026%20Adopted%20Budget.pdf?t=202605131049150" target="_blank" rel="noopener">
+        <span class="hero-source-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg></span>
+        <span class="hero-source-text"><strong>2026 Adopted Budget</strong><small>Official PDF &middot; our data source</small></span>
+      </a>
+      <a class="hero-source-btn" href="https://www.westwindsortwp.gov/Documents/Departments%20And%20Divisions/Finance/Financial%20Documents/2026/2026%20Municipal%20Budget%20and%20Capital%20Improvement%20Plan.pdf?t=202603022122540" target="_blank" rel="noopener">
+        <span class="hero-source-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg></span>
+        <span class="hero-source-text"><strong>Budget &amp; Capital Plan</strong><small>Full PDF document</small></span>
+      </a>
+      <a class="hero-source-btn" href="#sources">
+        <span class="hero-source-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M10 9l5 3-5 3z" fill="currentColor" stroke="none"/></svg></span>
+        <span class="hero-source-text"><strong>Mayor's presentation</strong><small>Watch the video</small></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= AT A GLANCE ================= -->
+<section class="section" id="glance">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">The headline numbers</span>
+      <h2>2026 budget at a glance</h2>
+      <p class="section-intro">
+        These are the totals printed on the township's adopted budget form.
+        Each card shows where the figure comes from so you can look it up
+        yourself.
+      </p>
+    </div>
+    <div class="stats-grid" id="headline-stats"></div>
+  </div>
+</section>
+
+<!-- ================= EXPLORE: 2D / 3D ================= -->
+<section class="section section--alt" id="explore">
+  <div class="container">
+    <div class="section-head explore-head">
+      <span class="eyebrow">Where it goes</span>
+      <h2>Explore where the money comes from &amp; goes</h2>
+      <p class="section-intro">
+        The same 2026 figures, your way &mdash; a clean set of charts, or an
+        interactive 3D view you can orbit and explore. Hover or tap anything
+        for the details behind it.
+      </p>
+      <div class="view-toggle" id="view-toggle" role="tablist" aria-label="Choose a view">
+        <button type="button" class="view-opt" data-view="2d" role="tab" aria-selected="false">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 8 8h-8z"/></svg>
+          Charts
+        </button>
+        <button type="button" class="view-opt is-active" data-view="flow" role="tab" aria-selected="true">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5c6 0 6 7 16 7M4 12h16M4 19c6 0 6-7 16-7"/></svg>
+          Flow
+        </button>
+        <button type="button" class="view-opt view-opt--3d" data-view="3d" role="tab" aria-selected="false">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 21 7v10l-9 5-9-5V7z"/><path d="M3 7l9 5 9-5M12 12v10"/></svg>
+          3D
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2D charts -->
+  <div class="viz-2d" id="viz-2d" hidden>
+    <div class="container">
+      <div class="donut-grid">
+        <div class="donut-feature">
+          <h3>Where the money comes from</h3>
+          <div class="donut-feature-wrap">
+            <svg id="revenue-donut" viewBox="0 0 940 640"></svg>
+            <div class="donut-center">
+              <div class="donut-center-value" id="revenue-total">$0</div>
+              <div class="donut-center-label">Total revenue</div>
+            </div>
+          </div>
+          <div class="donut-card-grid" id="revenue-cards"></div>
+        </div>
+        <div class="donut-feature">
+          <h3>Where the money goes</h3>
+          <div class="donut-feature-wrap">
+            <svg id="spending-donut" viewBox="0 0 940 640"></svg>
+            <div class="donut-center">
+              <div class="donut-center-value" id="spending-total">$0</div>
+              <div class="donut-center-label">Total spending</div>
+            </div>
+          </div>
+          <div class="donut-card-grid" id="spending-cards"></div>
+        </div>
+      </div>
+      <div class="donut-tail">
+        <h4 class="donut-tail-title">Smaller spending categories</h4>
+        <div class="donut-other-list" id="spending-other"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Flow (Sankey) -->
+  <div class="viz-flow" id="viz-flow">
+    <div class="container">
+      <p class="viz-flow-intro section-intro">
+        Every dollar the township takes in (left) flows into the 2026 budget,
+        then back out into spending (right). Band width shows the size &mdash;
+        click any band or category for details.
+      </p>
+    </div>
+    <div class="sankey-card sankey-card--full">
+      <svg id="sankey-chart" viewBox="0 0 1180 720" preserveAspectRatio="xMidYMid meet"></svg>
+    </div>
+    <div class="container">
+      <p class="sankey-hint">Click any bar &mdash; or any flow between them &mdash; to see what it covers.</p>
+      <div class="sankey-detail" id="sankey-detail">
+        <div class="sankey-detail-inner" id="sankey-detail-inner"></div>
+      </div>
+      <div class="legend" id="sankey-legend"></div>
+      <p class="source-tag">Sources: Revenues Summary (Sheet 11) and Appropriations (Sheets 12&ndash;30)</p>
+    </div>
+  </div>
+
+  <!-- 3D view -->
+  <div class="viz-3d" id="viz-3d" hidden>
+    <div class="stage" id="stage">
+      <canvas id="budget-3d"></canvas>
+      <div class="stage-labels" id="stage-labels"></div>
+      <div class="stage-grain" aria-hidden="true"></div>
+
+      <div class="stage-ui">
+        <div class="stage-head">
+          <div class="stage-toolbar">
+            <div class="stage-tools" role="group" aria-label="View controls">
+              <button type="button" class="stage-tool" id="stage-tour" aria-label="Play guided tour" title="Guided tour">
+                <svg class="ic-play" viewBox="0 0 24 24" aria-hidden="true"><polygon points="7 5 19 12 7 19"/></svg>
+                <svg class="ic-stop" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>
+              </button>
+              <button type="button" class="stage-tool" id="stage-rotate" aria-pressed="true" aria-label="Pause auto-rotate" title="Auto-rotate">
+                <svg class="ic-pause" viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="5" width="3.4" height="14" rx="1"/><rect x="13.6" y="5" width="3.4" height="14" rx="1"/></svg>
+                <svg class="ic-rotate" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><polyline points="21 3 21 9 15 9"/></svg>
+              </button>
+              <button type="button" class="stage-tool" id="stage-reset" aria-label="Reset view" title="Reset view">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="3 9 3 3 9 3"/><polyline points="21 9 21 3 15 3"/><polyline points="3 15 3 21 9 21"/><polyline points="21 15 21 21 15 21"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="stage-legend" id="stage-legend"></div>
+
+        <aside class="stage-panel" id="stage-panel" aria-live="polite">
+          <button type="button" class="stage-panel-close" id="stage-panel-close" aria-label="Close details">&times;</button>
+          <div class="stage-panel-body" id="stage-panel-body"></div>
+        </aside>
+      </div>
+
+      <div class="stage-tooltip" id="stage-tooltip"></div>
+
+      <div class="stage-fallback" id="stage-fallback" hidden>
+        <p>Your browser couldn&rsquo;t start the 3D view &mdash; switch to 2D charts above to see every figure.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PERSONAL CALCULATOR ================= -->
+<section class="section" id="calculator">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Make it personal</span>
+      <h2>What's your share?</h2>
+      <p class="section-intro">
+        Every property owner in West Windsor pays municipal taxes based on
+        their home's <strong>assessed value</strong>. Enter yours below to
+        estimate your 2026 municipal tax bill and see how it's split across
+        the same categories as the chart above. Don't have it handy? The
+        breakdown below already works without any input &mdash; and you can
+        expand any category to see its largest line items.
+      </p>
+    </div>
+    <div class="calculator-grid">
+      <div class="calc-card">
+        <label for="assessed-value">Your home's assessed value</label>
+        <div class="calc-input-row">
+          <span>$</span>
+          <input type="number" id="assessed-value" inputmode="decimal" min="0" step="1000" placeholder="e.g. 500000" />
+        </div>
+
+        <div class="calc-result">
+          <div class="calc-result-label">Estimated 2026 municipal tax bill</div>
+          <div class="calc-result-value" id="calc-result-value">Enter a value above</div>
+        </div>
+
+        <div class="calc-compare">
+          <div class="calc-compare-label" id="compare-label">
+            Enter your assessed value to see how your estimated bill compares
+            to the total raised townwide through property taxes.
+          </div>
+          <div class="calc-compare-track">
+            <div class="calc-compare-fill" id="compare-fill"></div>
+          </div>
+        </div>
+
+        <div class="calc-benchmarks">
+          <div class="calc-benchmarks-title">How that compares to typical homes</div>
+          <div class="calc-benchmarks-rows" id="calc-benchmarks-rows"></div>
+          <p class="calc-benchmarks-note">Illustrative assessed values &mdash; enter yours above to see where it lands.</p>
+        </div>
+
+        <details class="calc-formula">
+          <summary>How is this calculated?</summary>
+          <p style="margin-top:.5rem;">
+            Estimate = Assessed Value &times; <span class="gloss-term" data-term="Local Purpose Tax Rate (per $100)">0.427</span><span class="gloss-term gloss-btn" data-term="Local Purpose Tax Rate (per $100)" tabindex="0">?</span> &divide; 100
+          </p>
+          <code>$500,000 &times; 0.427 &divide; 100 = $2,135.00</code>
+          <p style="margin-top:.5rem;">
+            0.427 is the most recently published municipal (local-purpose)
+            tax rate per $100 of assessed value, used in the township's
+            2026 levy-cap calculation (Sheet 3-Levy CAP). The final 2026
+            rate depends on the certified tax levy and total assessed
+            valuation, so treat this as an estimate, not a bill.
+          </p>
+        </details>
+
+        <p class="privacy-note">
+          <strong>Your privacy:</strong> this calculation happens entirely
+          in your browser. The value you enter is never sent anywhere,
+          stored, or logged &mdash; it disappears the moment you close or
+          refresh this page.
+        </p>
+      </div>
+
+      <div class="breakdown-list" id="breakdown-list">
+        <h3 id="breakdown-title">Where the 2026 budget goes</h3>
+        <div id="breakdown-rows"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= WHAT CHANGED FROM 2025 ================= -->
+<section class="section section--alt" id="changed">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Year over year</span>
+      <h2>What changed from 2025?</h2>
+      <p class="section-intro">
+        Every <span class="gloss-term" data-term="Appropriation">appropriation</span><span class="gloss-term gloss-btn" data-term="Appropriation" tabindex="0">?</span> line in the adopted budget also lists what was
+        budgeted for 2025, so the same totals can be compared year over year.
+        Figures below are the as-introduced 2025 amounts compared with the
+        adopted 2026 amounts &mdash; the categories with the biggest dollar
+        swings are shown first.
+      </p>
+    </div>
+    <div class="yoy-total" id="yoy-total"></div>
+    <div class="yoy-grid" id="yoy-grid"></div>
+    <p class="source-tag">Source: Appropriations Schedule (Sheets 12&ndash;30), 2025 vs. 2026 columns</p>
+  </div>
+</section>
+
+<!-- ================= CAPS ================= -->
+<section class="section section--alt" id="caps">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Staying within state limits</span>
+      <h2>Under both New Jersey spending caps</h2>
+      <p class="section-intro">
+        New Jersey law limits how much most municipal spending
+        (<span class="gloss-term" data-term='"CAPS" (Appropriation Cap)'>the
+        appropriation &ldquo;CAP&rdquo;</span><span class="gloss-term gloss-btn" data-term='"CAPS" (Appropriation Cap)' tabindex="0">?</span>) and the property-tax levy
+        (the <span class="gloss-term" data-term="Levy Cap (2% Tax Levy Cap)">levy cap</span><span class="gloss-term gloss-btn" data-term="Levy Cap (2% Tax Levy Cap)" tabindex="0">?</span>)
+        can grow each year. The adopted 2026 budget comes in under both.
+      </p>
+    </div>
+    <div class="caps-grid" id="caps-grid"></div>
+  </div>
+</section>
+
+<!-- ================= DATA TABLES CALLOUT ================= -->
+<section class="section" id="data-tables-link">
+  <div class="container">
+    <div class="callout">
+      <strong>Want the full spreadsheet?</strong> Every line of the
+      appropriations schedule and every capital project is searchable and
+      filterable on the <a href="data.html">Data Tables page</a>.
+    </div>
+  </div>
+</section>
+
+<!-- ================= ABOUT / FAQ ================= -->
+<section class="section section--alt" id="about">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Methodology &amp; FAQ</span>
+      <h2>Frequently asked questions</h2>
+      <p class="section-intro">
+        Answers to the most common questions about where this data comes
+        from, what it does and doesn't cover, and how to verify it yourself.
+      </p>
+    </div>
+
+    <div class="faq-facts">
+      <div class="faq-fact">
+        <div>
+          <strong>Source</strong>
+          <span>Adopted 2026 Municipal Budget, Township of West Windsor (Mercer County, NJ)</span>
+        </div>
+      </div>
+      <div class="faq-fact">
+        <div>
+          <strong>Scope</strong>
+          <span>Municipal government only &mdash; not school or county taxes</span>
+        </div>
+      </div>
+      <div class="faq-fact">
+        <div>
+          <strong>Data integrity</strong>
+          <span>Every figure transcribed as printed, never recalculated</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-list">
+      <details class="faq-item" open>
+        <summary>
+          Where does this data come from?
+          <span class="faq-icon" aria-hidden="true"></span>
+        </summary>
+        <div class="faq-item-body">
+          <p>
+            Every figure on this page is transcribed directly from the
+            Township of West Windsor's <strong>adopted 2026 municipal
+            budget</strong>, as filed with the New Jersey Division of Local
+            Government Services. Original department labels, <span class="gloss-term" data-term="FCOA">FCOA</span><span class="gloss-term gloss-btn" data-term="FCOA" tabindex="0">?</span> codes,
+            and source-sheet references are preserved for every row so you
+            can look any number up in the source document yourself.
+          </p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          Does this page change or recalculate any numbers?
+          <span class="faq-icon" aria-hidden="true"></span>
+        </summary>
+        <div class="faq-item-body">
+          <p>No. A few rules keep every figure faithful to the source workbook:</p>
+          <ul>
+            <li>Values are copied from the source workbook without recalculation.</li>
+            <li>Blank fields in the original budget are left blank here too &mdash; never replaced with zero.</li>
+            <li>Spending totals shown in charts exclude the form's internal subtotal/total rows to avoid double-counting; the full <a href="data.html">Data Tables</a> page includes them, clearly labeled.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          What about school and county taxes?
+          <span class="faq-icon" aria-hidden="true"></span>
+        </summary>
+        <div class="faq-item-body">
+          <p>
+            This page covers only the <strong>municipal</strong> budget
+            &mdash; the township government's own operations (police, roads,
+            parks, etc.). School funding is a separate budget set by the West
+            Windsor-Plainsboro Regional School District, and it's the largest
+            part of most residents' property tax bills: school taxes for
+            2025 totaled <strong>$111,688,841</strong>, roughly twice the
+            size of this entire municipal budget. County taxes are set
+            separately by Mercer County and aren't included here either.
+          </p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          Is this an official Township publication?
+          <span class="faq-icon" aria-hidden="true"></span>
+        </summary>
+        <div class="faq-item-body">
+          <p>
+            No. This tool is built and maintained by <strong>West Windsor
+            Forward</strong>, a nonpartisan civic organization. It is not an
+            official Township of West Windsor publication and does not
+            replace the adopted budget document &mdash; it's meant to make
+            that document easier to understand.
+          </p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          Can I get the raw data myself?
+          <span class="faq-icon" aria-hidden="true"></span>
+        </summary>
+        <div class="faq-item-body">
+          <p>
+            Yes &mdash; every table behind this page is searchable on the
+            <a href="data.html">Data Tables page</a>, or you can
+            <a href="data/budget.json" download>download the underlying data as JSON</a>
+            and explore it yourself.
+          </p>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ================= MAYOR'S PRESENTATION ================= -->
+<section class="section" id="sources">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">In the township's own words</span>
+      <h2>Mayor's 2026 budget presentation</h2>
+      <p class="section-intro">
+        Watch the Mayor walk through the 2026 budget. Prefer to read it? The
+        full <a href="https://www.westwindsortwp.gov/Documents/Departments%20And%20Divisions/Finance/Financial%20Documents/2026/2026%20Adopted%20Budget.pdf?t=202605131049150" target="_blank" rel="noopener">adopted budget</a>
+        and <a href="https://www.westwindsortwp.gov/Documents/Departments%20And%20Divisions/Finance/Financial%20Documents/2026/2026%20Municipal%20Budget%20and%20Capital%20Improvement%20Plan.pdf?t=202603022122540" target="_blank" rel="noopener">capital plan</a>
+        are linked at the top of the page.
+      </p>
+    </div>
+
+    <div class="video-card">
+      <div class="video-embed">
+        <iframe
+          src="https://www.youtube-nocookie.com/embed/UxygPDY2AJY"
+          title="Mayor's 2026 budget presentation"
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+          referrerpolicy="strict-origin-when-cross-origin"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div>
+      <strong style="color:#fff;">West Windsor Forward</strong>
+      <p style="margin-top:.5rem;max-width:40ch;">
+        Helping West Windsor residents understand how their township
+        government works &mdash; and how their money is spent.
+      </p>
+    </div>
+    <div>
+      <p><a href="data.html">Data tables &amp; capital projects &rarr;</a></p>
+      <p><a href="https://westwindsorforward.org" target="_blank" rel="noopener">westwindsorforward.org &#8599;</a></p>
+      <p>Source: 2026 Adopted Budget, Township of West Windsor, Mercer County, NJ</p>
+    </div>
+  </div>
+</footer>
+
+<div class="sankey-tooltip" id="sankey-tooltip"></div>
+
+<script src="js/vendor/d3.min.js"></script>
+<script src="js/vendor/d3-sankey.min.js"></script>
+<script src="js/main.js" type="module"></script>
+<script src="js/chat.js" type="module"></script>
+</body>
+</html>

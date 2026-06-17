@@ -1122,18 +1122,26 @@ const Navbar: FC<NavbarProps> = ({
   activePage,
   selectedProject,
 }) => {
-  const navItems: PageName[] = [
+  const navItems = [
     "Home",
     "About",
     "Projects",
-    "Election",
+    "Budget",
     "Contact",
-  ];
+  ] as const;
+  type NavItem = (typeof navItems)[number];
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
 
-  const handleNav = (item: PageName) => setActivePage(item);
-  const handleMobileNav = (item: PageName) => {
+  const handleNav = (item: NavItem) => {
+    // The Budget Visualizer is hosted as static pages on this same site.
+    if (item === "Budget") {
+      window.location.href = "/budget/";
+      return;
+    }
+    setActivePage(item);
+  };
+  const handleMobileNav = (item: NavItem) => {
     handleNav(item);
     setIsMobileMenuOpen(false);
   };
@@ -1196,7 +1204,7 @@ const Navbar: FC<NavbarProps> = ({
               <button
                 onClick={() => handleNav(item)}
                 className={`px-3 py-2 md:px-4 md:py-2 rounded-md text-sm font-medium transition-all duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-sky-400 focus:ring-opacity-75 ${
-                  activePage === item && !selectedProject
+                  (activePage as string) === item && !selectedProject
                     ? "bg-sky-500 text-white shadow-md"
                     : "text-gray-300 hover:bg-sky-700 hover:text-white"
                 }`}
@@ -1218,7 +1226,7 @@ const Navbar: FC<NavbarProps> = ({
                 <button
                   onClick={() => handleMobileNav(item)}
                   className={`w-full text-left px-3 py-2.5 rounded-md text-sm font-medium transition-all duration-150 ease-in-out ${
-                    activePage === item && !selectedProject
+                    (activePage as string) === item && !selectedProject
                       ? "bg-sky-500 text-white"
                       : "text-gray-300 hover:bg-sky-600 hover:text-white"
                   }`}
@@ -1884,7 +1892,13 @@ const KeyInformationSection: FC = () => {
 // --- Pages ---
 const HomePage: FC<PageProps> = memo(({ setActivePage }) => (
   <div className="animate-fadeIn">
-    <header className="relative bg-gradient-to-br from-slate-900 via-sky-800 to-indigo-900 text-white py-16 sm:py-20 md:py-28 px-4 text-center rounded-b-2xl shadow-2xl overflow-hidden">
+    <header
+      className="relative bg-gradient-to-br from-slate-900 via-sky-800 to-indigo-900 text-white py-16 sm:py-20 md:py-28 px-4 text-center rounded-b-2xl shadow-2xl overflow-hidden"
+      style={{
+        backgroundImage:
+          "linear-gradient(to bottom right, #0f172a, #075985, #312e81)",
+      }}
+    >
       <DotPattern dotColor="text-sky-700 opacity-10" rows={8} cols={10} />
       <div className="relative z-10 container mx-auto">
         <img
@@ -4508,7 +4522,10 @@ const ContactPage: FC = () => {
       <div className="relative z-10 container mx-auto py-12 sm:py-16 md:py-20 px-4 animate-fadeIn">
         <div className="text-center mb-12 sm:mb-16">
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-800 mb-4">
-            Contact <span className="text-sky-600">West Windsor Forward</span>
+            Contact{" "}
+            <span className="text-sky-600" style={{ color: "#0284c7" }}>
+              West Windsor Forward
+            </span>
           </h1>
           <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             Ready to make a difference in our community? We'd love to hear from
