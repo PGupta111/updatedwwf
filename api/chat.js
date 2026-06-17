@@ -243,10 +243,7 @@ export default async function handler(req, res) {
     context = await buildContext(req);
   } catch (err) {
     console.error("context build failed:", err);
-    res.status(502).json({
-      error: "Couldn't load the budget data right now. Please try again.",
-      debug: { stage: "context", message: String(err && err.message ? err.message : err) },
-    });
+    res.status(502).json({ error: "Couldn't load the budget data right now. Please try again." });
     return;
   }
 
@@ -285,10 +282,7 @@ export default async function handler(req, res) {
         r.status === 400 || r.status === 404
           ? "The assistant model is misconfigured (check GEMINI_MODEL). "
           : "";
-      res.status(502).json({
-        error: `${msg}The assistant is unavailable right now.`,
-        debug: { stage: "gemini", status: r.status, detail: detail.slice(0, 300) },
-      });
+      res.status(502).json({ error: `${msg}The assistant is unavailable right now.` });
       return;
     }
 
@@ -311,9 +305,6 @@ export default async function handler(req, res) {
     res.status(200).json({ reply });
   } catch (err) {
     console.error("chat handler failed:", err);
-    res.status(502).json({
-      error: "The assistant is unavailable right now. Please try again.",
-      debug: { stage: "fetch", message: String(err && err.message ? err.message : err) },
-    });
+    res.status(502).json({ error: "The assistant is unavailable right now. Please try again." });
   }
 };
