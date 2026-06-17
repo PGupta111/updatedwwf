@@ -847,7 +847,7 @@ const projectsData: Project[] = [
       "A resident-friendly, non-partisan guide to West Windsor Township's adopted 2026 municipal budget. Explore where the money comes from and where it goes through interactive charts, a flow diagram, and a 3D view, estimate your own share with the tax calculator, see what changed from 2025, and ask the built-in assistant questions about the figures.",
     image:
       "https://cdn.corner.inc/place-photo/AVzFdbkamIpsqY9JYhaZQ8jMXm9y3z20OnBhhi7JicHOL4v8kZJPl5qafoD061DpXdFA80m0LrRQfKP5OOCGFZ-kUUnscv71RzO04SRk7B0Em1jFELYsrVrK_9ipJiUxj36C3J9x0H7kMbH3zxkCgHRj5GgEeJCAQDHzisLhSUMSgspFEVr2.jpeg",
-    externalUrl: "/budget/",
+    externalUrl: "/townshipbudget/",
   },
 ];
 
@@ -1151,7 +1151,7 @@ const Navbar: FC<NavbarProps> = ({
   const handleNav = (item: NavItem) => {
     // The Township Budget Visualizer is hosted as static pages on this same site.
     if (item === "Township Budget") {
-      window.location.href = "/budget/";
+      window.location.href = "/townshipbudget/";
       return;
     }
     setActivePage(item);

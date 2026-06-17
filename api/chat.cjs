@@ -35,7 +35,7 @@ async function buildContext(req) {
 
   const host = req.headers["x-forwarded-host"] || req.headers.host;
   const proto = req.headers["x-forwarded-proto"] || "https";
-  const res = await fetch(`${proto}://${host}/budget/data/budget.json`);
+  const res = await fetch(`${proto}://${host}/townshipbudget/data/budget.json`);
   if (!res.ok) throw new Error(`budget data fetch failed: ${res.status}`);
   const data = await res.json();
 
