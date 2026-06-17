@@ -456,6 +456,7 @@ interface Project {
   partnerOrganizations?: string[];
   supportingOrganizations?: string[];
   redirectTo?: PageName;
+  externalUrl?: string;
   goal?: string;
   impact?: string;
   timeline?: { stage: string; details: string; completed: boolean }[];
@@ -833,6 +834,17 @@ const projectsData: Project[] = [
         status: "Concept Phase",
       },
     ],
+  },
+  {
+    id: 3,
+    slug: "budget-visualizer-2026",
+    title: "2026 Municipal Budget Visualizer",
+    shortGoal: "Making the township budget easy to understand.",
+    status: "Live",
+    description:
+      "A resident-friendly, non-partisan guide to West Windsor Township's adopted 2026 municipal budget. Explore where the money comes from and where it goes through interactive charts, a flow diagram, and a 3D view, estimate your own share with the tax calculator, see what changed from 2025, and ask the built-in assistant questions about the figures.",
+    image: "/budget/assets/hero-illustration.png",
+    externalUrl: "/budget/",
   },
 ];
 
@@ -2223,7 +2235,8 @@ const ProjectCard: FC<ProjectCardProps> = memo(({ project, setActivePage }) => {
   const handleCardClick = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
       if ((e.target as HTMLElement).closest("a, button")) return;
-      if (project.redirectTo) setActivePage(project.redirectTo);
+      if (project.externalUrl) window.location.href = project.externalUrl;
+      else if (project.redirectTo) setActivePage(project.redirectTo);
       else setActivePage("ProjectDetails", project);
     },
     [project, setActivePage]
@@ -2232,7 +2245,8 @@ const ProjectCard: FC<ProjectCardProps> = memo(({ project, setActivePage }) => {
   const handleButtonClick = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
       e.stopPropagation();
-      if (project.redirectTo) setActivePage(project.redirectTo);
+      if (project.externalUrl) window.location.href = project.externalUrl;
+      else if (project.redirectTo) setActivePage(project.redirectTo);
       else setActivePage("ProjectDetails", project);
     },
     [project, setActivePage]
@@ -2329,7 +2343,11 @@ const ProjectCard: FC<ProjectCardProps> = memo(({ project, setActivePage }) => {
           className="w-full text-xs"
         >
           {" "}
-          {project.redirectTo ? "View Details" : "View Project Details"}{" "}
+          {project.externalUrl
+            ? "Explore the Budget"
+            : project.redirectTo
+            ? "View Details"
+            : "View Project Details"}{" "}
         </Button>
       </div>
     </Card>
