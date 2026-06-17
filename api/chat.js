@@ -184,7 +184,7 @@ ABOUT THIS WEBSITE (use only to help someone find a figure or feature — never 
 Below is the complete budget data you may use. It is the ONLY source you may draw on.
 `;
 
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
   res.setHeader("Cache-Control", "no-store");
 
   if (req.method !== "POST") {
@@ -243,7 +243,10 @@ module.exports = async (req, res) => {
     context = await buildContext(req);
   } catch (err) {
     console.error("context build failed:", err);
-    res.status(502).json({ error: "Couldn't load the budget data right now. Please try again." });
+    res.status(502).json({
+      error: "Couldn't load the budget data right now. Please try again.",
+      debug: { stage: "context", message: String(err && err.message ? err.message : err) },
+    });
     return;
   }
 
@@ -282,7 +285,10 @@ module.exports = async (req, res) => {
         r.status === 400 || r.status === 404
           ? "The assistant model is misconfigured (check GEMINI_MODEL). "
           : "";
-      res.status(502).json({ error: `${msg}The assistant is unavailable right now.` });
+      res.status(502).json({
+        error: `${msg}The assistant is unavailable right now.`,
+        debug: { stage: "gemini", status: r.status, detail: detail.slice(0, 300) },
+      });
       return;
     }
 
@@ -305,6 +311,9 @@ module.exports = async (req, res) => {
     res.status(200).json({ reply });
   } catch (err) {
     console.error("chat handler failed:", err);
-    res.status(502).json({ error: "The assistant is unavailable right now. Please try again." });
+    res.status(502).json({
+      error: "The assistant is unavailable right now. Please try again.",
+      debug: { stage: "fetch", message: String(err && err.message ? err.message : err) },
+    });
   }
 };
