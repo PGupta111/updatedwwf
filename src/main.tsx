@@ -2,6 +2,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { Analytics } from "@vercel/analytics/react";
 import App from "./App"; // Your existing organization site component
 import WW311 from "./WW311"; // The new 311 platform component
 import "./index.css"; // Your existing styles
@@ -36,5 +37,6 @@ function AppRouter() {
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <AppRouter />
+    <Analytics />
   </React.StrictMode>
 );
