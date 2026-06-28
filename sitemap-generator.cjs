@@ -4,8 +4,8 @@
 const fs = require('fs');
 const path = require('path');
 
-// Your website's base URL
-const BASE_URL = 'https://www.westwindsorforward.org/'; // Replace with your actual domain
+// Your website's base URL (no trailing slash; paths below start with "/")
+const BASE_URL = 'https://www.westwindsorforward.org'; // Replace with your actual domain
 
 // Your project data (copy from your React code)
 const projectsData = [
@@ -16,8 +16,8 @@ const projectsData = [
   },
   {
     id: 2,
-    slug: "adopt-a-station-pjc", 
-    title: "Adopt-a-Station: Princeton Junction",
+    slug: "princeton-junction-station-improvement",
+    title: "Princeton Junction Station Improvement",
   },
   // Add more projects here as you create them
 ];
@@ -48,6 +48,16 @@ const staticPages = [
     path: '/contact',
     priority: '0.7',
     changefreq: 'yearly'
+  },
+  {
+    path: '/townshipbudget/',
+    priority: '0.9',
+    changefreq: 'monthly'
+  },
+  {
+    path: '/townshipbudget/data.html',
+    priority: '0.7',
+    changefreq: 'monthly'
   }
 ];
 
