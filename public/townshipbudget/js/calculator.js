@@ -72,6 +72,11 @@ export function initCalculator(data) {
             <div class="breakdown-track">
               <div class="breakdown-fill" data-fill style="background:${g.color};"></div>
             </div>
+            <span class="breakdown-cta">
+              <span class="breakdown-cta-show">See largest line items</span>
+              <span class="breakdown-cta-hide">Hide line items</span>
+              <svg class="breakdown-cta-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
           </summary>
           <ul class="breakdown-lines">${lines}${moreRow}</ul>
         </details>`;

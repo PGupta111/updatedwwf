@@ -4941,15 +4941,24 @@ h1 { font-size: clamp(2.4rem, 5.2vw, 4rem); }
   cursor: pointer;
   list-style: none;
   border-radius: 8px;
+  transition: background 0.15s ease, border-color 0.15s ease;
 }
 .breakdown-row > summary::-webkit-details-marker { display: none; }
 .breakdown-row > summary:focus-visible { outline: 2px solid var(--brand-500); outline-offset: 2px; }
-.breakdown-row .group-name { display: inline-flex; align-items: center; gap: 0.35rem; }
+/* Make it obvious the whole row is interactive */
+.breakdown-row:hover {
+  border-color: var(--brand-300);
+}
+.breakdown-row:hover > summary {
+  background: var(--paper);
+}
+[data-theme="dark"] .breakdown-row:hover > summary { background: rgba(255, 255, 255, 0.04); }
+.breakdown-row .group-name { display: inline-flex; align-items: center; gap: 0.4rem; }
 .breakdown-chevron {
-  width: 13px;
-  height: 13px;
+  width: 16px;
+  height: 16px;
   flex: none;
-  color: var(--ink-faint);
+  color: var(--brand-500);
   transition: transform 0.2s ease;
 }
 .breakdown-row[open] .breakdown-chevron { transform: rotate(90deg); }
@@ -4958,6 +4967,35 @@ h1 { font-size: clamp(2.4rem, 5.2vw, 4rem); }
   border-color: var(--brand-300);
 }
 [data-theme="dark"] .breakdown-row[open] { background: rgba(255, 255, 255, 0.04); }
+
+/* Explicit "see more" call to action on every department row */
+.breakdown-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.28rem;
+  margin-top: 0.5rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--brand-600, var(--brand-500));
+}
+.breakdown-cta-arrow {
+  width: 13px;
+  height: 13px;
+  flex: none;
+  transition: transform 0.2s ease;
+}
+.breakdown-row[open] .breakdown-cta-arrow { transform: rotate(90deg); }
+.breakdown-row:hover .breakdown-cta { text-decoration: underline; }
+.breakdown-cta-hide { display: none; }
+.breakdown-row[open] .breakdown-cta-show { display: none; }
+.breakdown-row[open] .breakdown-cta-hide { display: inline; }
+
+.breakdown-lead {
+  margin: -0.15rem 0 0.9rem;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
 
 .breakdown-lines {
   list-style: none;
