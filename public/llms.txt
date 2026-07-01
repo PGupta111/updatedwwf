@@ -1,0 +1,26 @@
+# West Windsor Forward
+
+> West Windsor Forward is a nonpartisan coalition of West Windsor Township, New Jersey (Mercer County) residents focused on local budget transparency, transit, and community projects. The site's flagship tool is an interactive visualizer of the Township of West Windsor's adopted 2026 municipal budget.
+
+## Key facts
+- Organization: West Windsor Forward (nonpartisan civic group; not an official government body)
+- Location served: West Windsor Township, Mercer County, New Jersey
+- Contact: contact@westwindsorforward.org
+- The 2026 adopted municipal budget totals $57.69M. This covers municipal operations only (police, roads, parks, administration) — not West Windsor-Plainsboro school district taxes or Mercer County taxes.
+- All budget figures are transcribed as printed from the official adopted budget filed with the NJ Division of Local Government Services; nothing is recalculated.
+
+## West Windsor Township Budget
+- [West Windsor Township Budget 2026 — Where Your Taxes Go](https://www.westwindsorforward.org/townshipbudget/): Interactive breakdown of the 2026 municipal budget — where revenue comes from, where it goes by department, year-over-year changes vs. 2025, NJ spending caps, and a calculator to estimate your own municipal tax share.
+- [West Windsor Township Budget 2026 — Line-Item Data Tables](https://www.westwindsorforward.org/townshipbudget/data.html): Searchable, sortable tables of every revenue, appropriation, and capital project.
+- [Raw budget data (JSON)](https://www.westwindsorforward.org/townshipbudget/data/budget.json): Machine-readable underlying dataset.
+
+## Main site
+- [Home](https://www.westwindsorforward.org/)
+- [About](https://www.westwindsorforward.org/about)
+- [Projects](https://www.westwindsorforward.org/projects)
+- [Events](https://www.westwindsorforward.org/events)
+- [Contact](https://www.westwindsorforward.org/contact)
+
+## Source documents
+- Official 2026 Adopted Budget PDF (Township of West Windsor)
+- 2026 Municipal Budget and Capital Improvement Plan PDF
